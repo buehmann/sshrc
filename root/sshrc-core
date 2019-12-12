@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SSHRC_ROOT=$(dirname "$BASH_SOURCE")
+SSHRC_HOME=${SSHRC_HOME:=~/.sshrc}
+
+fatal() {
+  echo >&2 "$*"
+  exit 1
+}
+
+client() {
+  destination=$1
+  printf -v bootstrap 'exec bash -c %q' "$(bootstrap)"
+  ssh -t "$destination" "$bootstrap"
+}
+
+bootstrap() {
+  declare -f init unpack
+  echo 'init'
+  send "$SSHRC_ROOT" '"$SSHRC_ROOT"'
+  if [[ -d "$SSHRC_HOME" ]]; then
+    send "$SSHRC_HOME" '"$SSHRC_HOME"'
+  fi
+  echo 'exec "$SSHRC_ROOT/sshrc-core" server'
+}
+
+init() {
+  export SSHRC_ROOT=$(mktemp -d -t sshrc.XXXXXXXX)
+  readonly SSHRC_ROOT
+  trap 'rm -rf "$SSHRC_ROOT"' EXIT
+
+  export SSHRC_HOME=$SSHRC_ROOT/home
+  mkdir "$SSHRC_HOME"
+}
+
+send() {
+  local from=$1 to=$2
+  echo "unpack $to << __"
+  pack "$from"
+  echo '__'
+}
+
+unpack() {
+  openssl base64 -d | tar xz -C "$1"
+}
+
+pack() {
+  tar cz -h -C "$1" . | openssl base64
+}
+
+server() {
+  trap 'rm -rf "$SSHRC_ROOT"' EXIT
+  bash
+}
+
+mode=$1
+shift
+
+case $mode in
+  client|server) $mode "$@" ;;
+  *) fatal "Unknown mode '$mode'" ;;
+esac

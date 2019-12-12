@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+SSHRC_ROOT=$(dirname "$(readlink -f "$BASH_SOURCE")")
+exec "$SSHRC_ROOT/sshrc-core" client "$@"
