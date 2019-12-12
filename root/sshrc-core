@@ -11,8 +11,12 @@ fatal() {
 
 client() {
   destination=$1
-  printf -v bootstrap 'exec bash -c %q' "$(bootstrap)"
+  bootstrap="exec bash -c $(sh_escape "$(bootstrap)")"
   ssh -t "$destination" "$bootstrap"
+}
+
+sh_escape() {
+  echo "'${1//"'"/"'\\''"}'"
 }
 
 bootstrap() {
