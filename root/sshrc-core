@@ -12,7 +12,7 @@ fatal() {
 client() {
   destination=$1
   shift
-  bootstrap="exec bash -c $(sh_escape "$(bootstrap "$@")")"
+  bootstrap="exec bash --norc --noprofile -c $(sh_escape "$(bootstrap "$@")")"
   options=()
   if (($# == 0)); then
     options+=(-t)
