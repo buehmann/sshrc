@@ -11,8 +11,13 @@ fatal() {
 
 client() {
   destination=$1
-  bootstrap="exec bash -c $(sh_escape "$(bootstrap)")"
-  ssh -t "$destination" "$bootstrap"
+  shift
+  bootstrap="exec bash -c $(sh_escape "$(bootstrap "$@")")"
+  options=()
+  if (($# == 0)); then
+    options+=(-t)
+  fi
+  ssh "${options[@]}" "$destination" "$bootstrap"
 }
 
 sh_escape() {
@@ -26,7 +31,11 @@ bootstrap() {
   if [[ -d "$SSHRC_HOME" ]]; then
     send "$SSHRC_HOME" '"$SSHRC_HOME"'
   fi
-  echo 'exec "$SSHRC_ROOT/sshrc-core" server'
+  echo -n 'exec "$SSHRC_ROOT/sshrc-core" server'
+  if (($# > 0)); then
+    printf ' %q' "$@"
+  fi
+  echo
 }
 
 init() {
@@ -55,7 +64,11 @@ pack() {
 
 server() {
   trap 'rm -rf "$SSHRC_ROOT"' EXIT
-  bash
+  if (($# == 0)); then
+    bash
+  else
+    eval "$*"
+  fi
 }
 
 mode=$1
