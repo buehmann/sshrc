@@ -25,7 +25,7 @@ sh_escape() {
 }
 
 bootstrap() {
-  declare -f init unpack
+  declare -f init unpack signal_handlers
   echo 'init'
   send "$SSHRC_ROOT" '"$SSHRC_ROOT"'
   if [[ -d "$SSHRC_HOME" ]]; then
@@ -38,9 +38,13 @@ bootstrap() {
   echo
 }
 
+signal_handlers() {
+  trap 'rm -rf "$SSHRC_ROOT"' EXIT
+}
+
 init() {
   export SSHRC_ROOT=$(mktemp -d -t sshrc.XXXXXXXX)
-  trap 'rm -rf "$SSHRC_ROOT"' EXIT
+  signal_handlers
 
   export SSHRC_HOME=$SSHRC_ROOT/home
   mkdir "$SSHRC_HOME"
@@ -62,7 +66,7 @@ pack() {
 }
 
 server() {
-  trap 'rm -rf "$SSHRC_ROOT"' EXIT
+  signal_handlers
   if (($# == 0)); then
     bash -l
   else
