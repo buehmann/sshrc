@@ -40,7 +40,6 @@ bootstrap() {
 
 init() {
   export SSHRC_ROOT=$(mktemp -d -t sshrc.XXXXXXXX)
-  readonly SSHRC_ROOT
   trap 'rm -rf "$SSHRC_ROOT"' EXIT
 
   export SSHRC_HOME=$SSHRC_ROOT/home
@@ -67,7 +66,7 @@ server() {
   if (($# == 0)); then
     bash -l
   else
-    eval "$*"
+    (eval "$*")
   fi
 }
 
