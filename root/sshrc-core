@@ -65,7 +65,7 @@ pack() {
 server() {
   trap 'rm -rf "$SSHRC_ROOT"' EXIT
   if (($# == 0)); then
-    bash
+    bash -l
   else
     eval "$*"
   fi
