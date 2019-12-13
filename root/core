@@ -9,6 +9,16 @@ fatal() {
   exit 1
 }
 
+boot() {
+  if command -v base64; then
+    _base64() { base64 "$@"; }
+  elif command -v openssl; then
+    _base64() { openssl base64 "$@"; }
+  else
+    fatal "base64 not found"
+  fi
+} > /dev/null
+
 client() {
   destination=$1
   shift
@@ -25,7 +35,7 @@ sh_escape() {
 }
 
 bootstrap() {
-  declare -f init unpack signal_handlers
+  declare -f fatal boot init unpack signal_handlers
   echo 'init'
   send "$SSHRC_ROOT" '"$SSHRC_ROOT"'
   if [[ -d "$SSHRC_HOME" ]]; then
@@ -44,6 +54,7 @@ signal_handlers() {
 
 init() {
   set -euo pipefail
+  boot
   export SSHRC_TMP=$(mktemp -d -t sshrc.XXXXXXXX)
   signal_handlers
 
@@ -60,11 +71,11 @@ send() {
 }
 
 unpack() {
-  openssl base64 -d | tar xz -C "$1"
+  _base64 -d | tar xz -C "$1"
 }
 
 pack() {
-  tar cz -h -C "$1" . | openssl base64
+  tar cz -h -C "$1" . | _base64
 }
 
 server() {
@@ -76,6 +87,7 @@ server() {
   "$SSHRC_ROOT/shell" ${*+-c "$*"}
 }
 
+boot
 mode=$1
 shift
 
