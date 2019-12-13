@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-options=()
-if (($# == 0)); then
-  options+=(-l)
-else
-  options+=(-c "$*")
-fi
+export BASH_ENV=$SSHRC_ROOT/bash_env
+options=(--rcfile "$BASH_ENV")
+case $SSHRC_MODE in
+  command) options+=(-c "$*") ;;
+esac
 exec bash "${options[@]}"

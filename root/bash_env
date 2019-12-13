@@ -1,0 +1,25 @@
+# vim: ft=sh
+unset BASH_ENV
+
+case $SSHRC_MODE in
+  login)
+    if [[ -e /etc/profile ]]; then
+      . /etc/profile
+    fi
+    if [[ -r ~/.bash_profile ]]; then
+      . ~/.bash_profile
+    elif [[ -r ~/.bash_login ]]; then
+      . ~/.bash_login
+    elif [[ -r ~/.profile ]]; then
+      . ~/.profile
+    fi
+    ;;
+  command)
+    if [[ -e /etc/bash.bashrc ]]; then
+      . /etc/bash.bashrc
+    fi
+    if [[ -e ~/.bashrc ]]; then
+      . ~/.bashrc
+    fi
+    ;;
+esac
