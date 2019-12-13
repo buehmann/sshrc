@@ -31,7 +31,7 @@ bootstrap() {
   if [[ -d "$SSHRC_HOME" ]]; then
     send "$SSHRC_HOME" '"$SSHRC_HOME"'
   fi
-  echo -n 'exec "$SSHRC_ROOT/sshrc-core" server'
+  echo -n 'exec "$SSHRC_ROOT/core" server'
   if (($# > 0)); then
     printf ' %q' "$@"
   fi
