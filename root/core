@@ -68,12 +68,10 @@ pack() {
 
 server() {
   signal_handlers
+  export SSHRC_SESSION_TYPE=shell
   if (($# > 0)); then
-    SSHRC_MODE=command
-  else
-    SSHRC_MODE=login
+    SSHRC_SESSION_TYPE=command
   fi
-  export SSHRC_MODE
   "$SSHRC_ROOT/shell" "$@"
 }
 

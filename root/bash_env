@@ -1,8 +1,8 @@
 # vim: ft=sh
 unset BASH_ENV
 
-case $SSHRC_MODE in
-  login)
+case $SSHRC_SESSION_TYPE in
+  shell)
     if [[ -e /etc/profile ]]; then
       . /etc/profile
     fi

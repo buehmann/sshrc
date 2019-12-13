@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export BASH_ENV=$SSHRC_ROOT/bash_env
 options=(--rcfile "$BASH_ENV")
-case $SSHRC_MODE in
+case $SSHRC_SESSION_TYPE in
   command) options+=(-c "$*") ;;
 esac
 exec bash "${options[@]}"
