@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SSHRC_ROOT=$(dirname "$BASH_SOURCE")
-SSHRC_HOME=${SSHRC_HOME:=~/.sshrc}
+SSHRC_HOME=${SSHRC_HOME:=~/.config/sshrc}
 
 fatal() {
   echo >&2 "$*"
