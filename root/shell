@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 export BASH_ENV=$SSHRC_ROOT/bash_env
-options=(--rcfile "$BASH_ENV")
-case $SSHRC_SESSION_TYPE in
-  command) options+=(-c "$*") ;;
-esac
-exec bash "${options[@]}"
+exec bash --rcfile "$BASH_ENV" "$@"

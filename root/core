@@ -73,7 +73,7 @@ server() {
   if (($# > 0)); then
     SSHRC_SESSION_TYPE=command
   fi
-  "$SSHRC_ROOT/shell" "$@"
+  "$SSHRC_ROOT/shell" ${*+-c "$*"}
 }
 
 mode=$1
