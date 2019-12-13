@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
-export BASH_ENV=$SSHRC_ROOT/bash_env
+export BASH_ENV=$SSHRC_ROOT/bash.env
 exec bash --rcfile "$BASH_ENV" "$@"
