@@ -39,15 +39,16 @@ bootstrap() {
 }
 
 signal_handlers() {
-  trap 'rm -rf "$SSHRC_ROOT"' EXIT
+  trap 'rm -rf "$SSHRC_TMP"' EXIT
 }
 
 init() {
-  export SSHRC_ROOT=$(mktemp -d -t sshrc.XXXXXXXX)
+  export SSHRC_TMP=$(mktemp -d -t sshrc.XXXXXXXX)
   signal_handlers
 
-  export SSHRC_HOME=$SSHRC_ROOT/home
-  mkdir "$SSHRC_HOME"
+  export SSHRC_ROOT=$SSHRC_TMP/root
+  export SSHRC_HOME=$SSHRC_TMP/home
+  mkdir "$SSHRC_ROOT" "$SSHRC_HOME"
 }
 
 send() {
@@ -67,7 +68,7 @@ pack() {
 
 server() {
   signal_handlers
-  "$SSHRC_HOME/shell" "$@"
+  "$SSHRC_ROOT/shell" "$@"
 }
 
 mode=$1
