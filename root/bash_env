@@ -13,6 +13,10 @@ case $SSHRC_MODE in
     elif [[ -r ~/.profile ]]; then
       . ~/.profile
     fi
+
+    if [[ -r $SSHRC_HOME/.bash_profile ]]; then
+      . $SSHRC_HOME/.bash_profile
+    fi
     ;;
   command)
     if [[ -e /etc/bash.bashrc ]]; then
@@ -20,6 +24,10 @@ case $SSHRC_MODE in
     fi
     if [[ -e ~/.bashrc ]]; then
       . ~/.bashrc
+    fi
+
+    if [[ -r $SSHRC_HOME/.bashrc ]]; then
+      . $SSHRC_HOME/.bashrc
     fi
     ;;
 esac
