@@ -3,6 +3,10 @@ fatal() {
   exit 1
 }
 
+if [ "${BASH_VERSINFO-0}" -le 4 ]; then
+  fatal "bash >= 4.0 is required"
+fi
+
 boot() {
   if command -v base64; then
     _base64() { base64 "$@"; }
