@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+options=()
+if (($# == 0)); then
+  options+=(-l)
+else
+  options+=(-c "$*")
+fi
+exec bash "${options[@]}"

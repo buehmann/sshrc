@@ -67,11 +67,7 @@ pack() {
 
 server() {
   signal_handlers
-  if (($# == 0)); then
-    bash -l
-  else
-    (eval "$*")
-  fi
+  "$SSHRC_HOME/shell" "$@"
 }
 
 mode=$1
