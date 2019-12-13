@@ -20,8 +20,9 @@ boot() {
 init() {
   set -euo pipefail
   boot
-  export SSHRC_TMP=$(mktemp -d -t sshrc.XXXXXXXX)
+  SSHRC_TMP=$(mktemp -d -t sshrc.XXXXXXXX)
   signal_handlers
+  export SSHRC_TMP
 
   export SSHRC_ROOT=$SSHRC_TMP/root
   export SSHRC_HOME=$SSHRC_TMP/home
