@@ -43,6 +43,7 @@ signal_handlers() {
 }
 
 init() {
+  set -euo pipefail
   export SSHRC_TMP=$(mktemp -d -t sshrc.XXXXXXXX)
   signal_handlers
 

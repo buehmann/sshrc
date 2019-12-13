@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+set -euo pipefail
 SSHRC_ROOT=$(dirname "$(readlink -f "$BASH_SOURCE")")/..
 exec "$SSHRC_ROOT/core" client "$@"
