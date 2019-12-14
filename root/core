@@ -40,7 +40,7 @@ send() {
 }
 
 pack() {
-  tar cz -h -C "$1" . | _base64
+  tar cz -h -C "$1" . | base64
 }
 
 server() {

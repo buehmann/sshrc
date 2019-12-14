@@ -8,10 +8,10 @@ if [ "${BASH_VERSINFO-0}" -le 4 ]; then
 fi
 
 boot() {
-  if command -v base64; then
-    _base64() { base64 "$@"; }
-  elif command -v openssl; then
-    _base64() { openssl base64 "$@"; }
+  if command -v openssl; then
+    base64() { openssl base64 "$@"; }
+  elif command -v base64; then
+    base64() { command base64 "$@"; }
   else
     fatal "base64 not found"
   fi
@@ -30,7 +30,7 @@ init() {
 }
 
 unpack() {
-  _base64 -d | tar xz -C "$1"
+  base64 -d | tar xz -C "$1"
 }
 
 signal_handlers() {
