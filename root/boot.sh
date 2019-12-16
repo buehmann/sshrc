@@ -3,8 +3,8 @@ fatal() {
   exit 1
 }
 
-if [ "${BASH_VERSINFO-0}" -le 4 ]; then
-  fatal "bash >= 4.0 is required"
+if [ "${BASH_VERSINFO-0}" -lt 4 ]; then
+  fatal "$HOSTNAME: bash >= 4.0 is required. Found $BASH_VERSION instead."
 fi
 
 boot() {
