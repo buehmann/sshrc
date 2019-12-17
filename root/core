@@ -19,7 +19,7 @@ client() {
 }
 
 sh_escape() {
-  echo "'${1//"'"/"'\\''"}'"
+  printf "%q" "$1"
 }
 
 bootstrap() {
